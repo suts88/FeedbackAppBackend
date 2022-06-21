@@ -1,0 +1,16 @@
+server:
+  port: "8080"
+spring:
+  application:
+    name: feedbackAppBackend
+  datasource:
+    url: jdbc:postgresql://localhost:5433/
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
