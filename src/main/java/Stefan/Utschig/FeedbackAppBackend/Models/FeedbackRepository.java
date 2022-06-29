@@ -24,14 +24,8 @@ public interface FeedbackRepository extends CrudRepository<Feedback,Long> {
             "f.comments = :#{#feedback.comments} "+
             "where f.id = :id"
     )
-    public void updateFeedback(String id,
+    public void updateFeedback(Long id,
             Feedback feedback
     );
 
-    @Modifying
-    @Query(
-            "update  Feedback f set f.comments = :feedback where f.id = :id"
-
-    )
-    public void updateFeedbackComments(Long id, List<Comment>feedback);
 }

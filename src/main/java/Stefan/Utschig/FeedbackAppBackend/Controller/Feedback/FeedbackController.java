@@ -1,5 +1,6 @@
-package Stefan.Utschig.FeedbackAppBackend.Controller;
+package Stefan.Utschig.FeedbackAppBackend.Controller.Feedback;
 
+import Stefan.Utschig.FeedbackAppBackend.Models.Comment;
 import Stefan.Utschig.FeedbackAppBackend.Models.Feedback;
 import Stefan.Utschig.FeedbackAppBackend.Services.FeedbackService;
 import lombok.AllArgsConstructor;
@@ -39,7 +40,12 @@ public class FeedbackController {
     @PutMapping("{id}")
     public ResponseEntity<Feedback> updateFeedback(@RequestBody @NotNull Feedback feedback, @PathVariable String id) {
         this.feedbackService.updateFeedback(id, feedback);
-        return new ResponseEntity<>(feedback,HttpStatus.OK)
+        return new ResponseEntity<>(feedback,HttpStatus.OK);
+    }
+
+    @PutMapping("{id}/comments")
+    public void updateComments(@PathVariable String id, @RequestBody Comment comment){
+        this.feedbackService.updateComments(id, comment);
     }
 
     @DeleteMapping("{id}")

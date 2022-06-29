@@ -1,5 +1,7 @@
 package Stefan.Utschig.FeedbackAppBackend.Services;
 
+import Stefan.Utschig.FeedbackAppBackend.Models.Comment;
+import Stefan.Utschig.FeedbackAppBackend.Models.CommentRepository;
 import Stefan.Utschig.FeedbackAppBackend.Models.Feedback;
 import Stefan.Utschig.FeedbackAppBackend.Models.FeedbackRepository;
 import lombok.AllArgsConstructor;
@@ -12,9 +14,11 @@ import java.util.Optional;
 @Service
 @Transactional
 @AllArgsConstructor
+
 public class FeedbackService {
 
     private FeedbackRepository feedbackRepository;
+    private CommentRepository commentRepository;
 
     public List<Feedback> getFeedbacks() {
         return this.feedbackRepository.findAll();
@@ -31,6 +35,12 @@ public class FeedbackService {
             comment.setFeedback(feedback);
         }
         this.feedbackRepository.save(feedback);
+    }
+
+    public void updateComments(String id, Comment comment) {
+        Feedback updatedFeedback = this.getFeedbackById(id);
+        comment.setFeedback(updatedFeedback);
+        this.commentRepository.save(comment);
     }
 
     public void updateFeedback(String id, Feedback feedback) {
@@ -53,13 +63,16 @@ public class FeedbackService {
         if (feedback.getDescription() != null) {
             updatedFeedback.setDescription(feedback.getDescription());
         }
-        if (feedback.getComments().size() != updatedFeedback.getComments().size()) {
+        if (feedback.getComments() != null) {
             updatedFeedback.getComments().clear();
             for (var comment : feedback.getComments()) {
                 comment.setFeedback(updatedFeedback);
                 updatedFeedback.getComments().add(comment);
             }
+
         }
+
+
     }
 
     public boolean deleteFeedbackById(String id) {
