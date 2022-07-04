@@ -31,8 +31,10 @@ public class FeedbackService {
     }
 
     public void createFeedback(Feedback feedback) {
-        for (var comment : feedback.getComments()) {
-            comment.setFeedback(feedback);
+        if(feedback.getComments() != null) {
+            for (var comment : feedback.getComments()) {
+                comment.setFeedback(feedback);
+            }
         }
         this.feedbackRepository.save(feedback);
     }
@@ -43,8 +45,13 @@ public class FeedbackService {
         this.commentRepository.save(comment);
     }
 
-    public void updateFeedback(String id, Feedback feedback) {
+    public void updateUpvotes(String id, String upvotes){
+        Feedback updatedFeedback = this.getFeedbackById(id);
+        updatedFeedback.setUpvotes(upvotes);
+        this.feedbackRepository.save(updatedFeedback);
+    }
 
+    public void updateFeedback(String id, Feedback feedback) {
 
         Feedback updatedFeedback = this.getFeedbackById(id);
 

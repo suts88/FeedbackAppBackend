@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("feedbacks")
-@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:4200"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @AllArgsConstructor
 public class FeedbackController {
 
@@ -36,17 +36,22 @@ public class FeedbackController {
         return new ResponseEntity<>(feedback, HttpStatus.CREATED);
     }
 
-    // Not safe yet
+
+    @PutMapping("{id}/upvotes")
+    public ResponseEntity<String> updateFeedbackUpvotes(@PathVariable String id, @RequestBody String upvotes){
+        this.feedbackService.updateUpvotes(id, upvotes);
+        return new ResponseEntity<>(upvotes, HttpStatus.OK);
+
+    }
+
+
+
     @PutMapping("{id}")
     public ResponseEntity<Feedback> updateFeedback(@RequestBody @NotNull Feedback feedback, @PathVariable String id) {
         this.feedbackService.updateFeedback(id, feedback);
         return new ResponseEntity<>(feedback,HttpStatus.OK);
     }
 
-    @PutMapping("{id}/comments")
-    public void updateComments(@PathVariable String id, @RequestBody Comment comment){
-        this.feedbackService.updateComments(id, comment);
-    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteFeedback(@PathVariable String id) {
