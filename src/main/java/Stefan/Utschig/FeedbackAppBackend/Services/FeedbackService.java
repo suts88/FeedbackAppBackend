@@ -30,13 +30,14 @@ public class FeedbackService {
         return feedback;
     }
 
-    public void createFeedback(Feedback feedback) {
+    public Feedback createFeedback(Feedback feedback) {
         if(feedback.getComments() != null) {
             for (var comment : feedback.getComments()) {
                 comment.setFeedback(feedback);
             }
         }
         this.feedbackRepository.save(feedback);
+        return feedback;
     }
 
     public void updateComments(String id, Comment comment) {
@@ -82,12 +83,13 @@ public class FeedbackService {
 
     }
 
-    public boolean deleteFeedbackById(String id) {
-        if (this.feedbackRepository.findById(Long.valueOf(id)).isPresent()) {
+    public Optional<Feedback> deleteFeedbackById(String id) {
+        Optional<Feedback> feedback = feedbackRepository.findById(Long.valueOf(id));
+        if (feedback.isPresent()) {
             this.feedbackRepository.deleteById(Long.valueOf(id));
-            return true;
+            return feedback;
         }
-        return false;
+        return Optional.empty();
 
     }
 }

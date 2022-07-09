@@ -55,7 +55,7 @@ public class FeedbackController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteFeedback(@PathVariable String id) {
-        if (this.feedbackService.deleteFeedbackById(id)) {
+        if (this.feedbackService.deleteFeedbackById(id).isPresent()) {
             return new ResponseEntity<>(id, HttpStatus.OK);
         }
         return new ResponseEntity<>(id, HttpStatus.BAD_REQUEST);
